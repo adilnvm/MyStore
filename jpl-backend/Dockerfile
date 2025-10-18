@@ -22,7 +22,7 @@ RUN ./mvnw clean package -DskipTests
 
 # --- Stage 2: Runtime Stage (Temurin JRE for minimal size/security) ---
 # Switch to the JRE version for the final, smallest image
-FROM eclipse-temurin:21-jre-jammy  <-- THIS IS THE NEW RELIABLE JRE TAG
+FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 
 # Render listens on PORT 10000
