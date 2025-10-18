@@ -1,5 +1,5 @@
 # --- Stage 1: Build Stage ---
-FROM openjdk:21-jdk-slim-bullseye AS build
+FROM openjdk:21-jdk-slim AS build
 WORKDIR /app
 
 # Copy Maven wrapper and configuration first for dependency caching
@@ -20,7 +20,7 @@ COPY src ./src
 RUN ./mvnw clean package -DskipTests
 
 # --- Stage 2: Runtime Stage (JRE for minimal size/security) ---
-FROM openjdk:21-jre-slim-bullseye
+FROM openjdk:21-jre-bullseye
 WORKDIR /app
 
 # Render listens on PORT 10000
