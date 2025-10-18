@@ -32,5 +32,6 @@ EXPOSE 10000
 COPY --from=build /app/target/*.jar app.jar
 
 # Run the app with the necessary --enable-preview flag
-# This flag is CRUCIAL for your compiled code
-ENTRYPOINT ["java", "-jar", "--enable-preview", "/app.jar"]
+# Final, corrected ENTRYPOINT
+# Note: The JAR is at /app/app.jar. We are making sure the command uses the full path.
+ENTRYPOINT ["java", "-jar", "--enable-preview", "/app/app.jar"]
