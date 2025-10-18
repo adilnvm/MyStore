@@ -2,10 +2,13 @@
 FROM openjdk:21-jdk-slim-bullseye AS build
 WORKDIR /app
 
-# Copy Maven wrapper and pom.xml first for dependency caching
+# Copy Maven wrapper and configuration first for dependency caching
 COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .
+
+# ✅ Give execute permission to mvnw
+RUN chmod +x mvnw
 
 # Download dependencies
 RUN ./mvnw dependency:go-offline
@@ -20,10 +23,10 @@ RUN ./mvnw clean package -DskipTests
 FROM openjdk:21-jdk-slim-bullseye
 WORKDIR /app
 
-# The Render Web Service listens on PORT 10000 by default
+# Render listens on PORT 10000
 EXPOSE 10000
 
-# Copy the JAR built in the first stage
+# Copy built JAR from build stage
 COPY --from=build /app/target/*.jar app.jar
 
 # Run the app
