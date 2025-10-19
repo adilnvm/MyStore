@@ -19,7 +19,7 @@ function AddProduct() {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/api/admin/products/add", form);
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/admin/products/add`, form);
       alert("✅ Product added successfully!");
       navigate("/admin/");
     } catch (error) {

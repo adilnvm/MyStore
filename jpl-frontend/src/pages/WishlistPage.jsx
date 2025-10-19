@@ -37,7 +37,7 @@ function WishlistPage() {
           >
             <VStack spacing={3}>
               <Image
-                src={`http://localhost:8080/img/default-product.png`}
+                src={`${import.meta.env.VITE_API_BASE_URL}/img/default-product.png`}
                 alt={item.name}
                 boxSize="150px"
                 objectFit="cover"

@@ -126,7 +126,7 @@ function Orders() {
                       <Flex key={item.id || `${item.name}-${Math.random()}`} justify="space-between" align="center">
                         <HStack>
                           <Image
-                            src={"http://localhost:8080/img/default-product.png"}
+                            src={`${import.meta.env.VITE_API_BASE_URL}/img/default-product.png`}
                             boxSize="64px"
                             objectFit="cover"
                             borderRadius="md"

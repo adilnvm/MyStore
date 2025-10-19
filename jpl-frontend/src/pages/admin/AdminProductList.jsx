@@ -77,7 +77,7 @@ export default function AdminProductList() {
   async function fetchProducts() {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:8080/api/admin/products");
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/products`);
       if (!res.ok) throw new Error(`Server returned ${res.status}`);
       const data = await res.json();
       setProducts(Array.isArray(data) ? data : []);
@@ -114,7 +114,7 @@ export default function AdminProductList() {
 
     try {
       const res = await fetch(
-        `http://localhost:8080/api/admin/products/update/${editingProduct.id}`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/admin/products/update/${editingProduct.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -161,7 +161,7 @@ export default function AdminProductList() {
       return;
     }
     try {
-      const res = await fetch(`http://localhost:8080/api/admin/products/delete/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/products/delete/${id}`, {
         method: "DELETE",
       });
 
@@ -188,8 +188,8 @@ export default function AdminProductList() {
     if (product.imageUrl.startsWith("http://") || product.imageUrl.startsWith("https://")) {
       return product.imageUrl;
     }
-    // if backend serves /images/... from localhost:8080
-    return `http://localhost:8080${product.imageUrl}`;
+    // if backend serves /images/... from localhost:10000
+    return `${import.meta.env.VITE_API_BASE_URL}${product.imageUrl}`;
   }
 
   if (loading) {

@@ -39,7 +39,7 @@ function ProductCard({ product }) {
       {/* clickable image + name link */}
       <Link to={`/products/${product.id}`} onClick={(e) => e.stopPropagation()}>
         <Image
-          src={"http://localhost:8080/img/default-product.png"}
+          src={`${import.meta.env.VITE_API_BASE_URL}/img/default-product.png`}
           alt={product.name}
           boxSize="200px"
           objectFit="cover"

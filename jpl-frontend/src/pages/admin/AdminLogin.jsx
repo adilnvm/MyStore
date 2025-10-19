@@ -10,7 +10,7 @@ export default function AdminLogin() {
   const [password, setPassword] = useState("");
   const toast = useToast();
   const navigate = useNavigate();
-  const API = "http://localhost:8080/api/admin/login";
+  const API = `${import.meta.env.VITE_API_BASE_URL}/api/admin/login`;
 
   const handleLogin = async () => {
     try {

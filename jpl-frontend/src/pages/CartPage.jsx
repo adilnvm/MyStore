@@ -80,7 +80,7 @@ function Cart() {
                 <Tr key={item.id}>
                   <Td>
                     <HStack>
-                      <Image boxSize="50px" src={"http://localhost:8080/img/default-product.png"} />
+                      <Image boxSize="50px" src={`${import.meta.env.VITE_API_BASE_URL}/img/default-product.png`} />
                       <Text>{item.name}</Text>
                     </HStack>
                   </Td>

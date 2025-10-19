@@ -9,7 +9,7 @@ function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
-    fetch("http://100.0.245.157:8080/api/products")
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/api/products`)
       .then(res => res.json())
       .then(data => {
         setAllProducts(data);

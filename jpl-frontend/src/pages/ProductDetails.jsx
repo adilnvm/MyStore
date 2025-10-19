@@ -70,7 +70,7 @@ function ProductDetails() {
         {/* Product Image */}
         <Box flex="1" display="flex" justifyContent="center" alignItems="center">
           <Image
-            src={"http://localhost:8080/img/default-product.png"}
+            src={`${import.meta.env.VITE_API_BASE_URL}/img/default-product.png`}
             alt={product.name}
             boxSize="400px"
             objectFit="contain"
