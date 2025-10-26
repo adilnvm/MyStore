@@ -7,17 +7,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // GET all users
@@ -26,48 +26,27 @@ public class UserController {
         return userRepository.findAll();
     }
 
+    // REGISTER
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
-        System.out.println(STR."Register request:USERNAME: \{user.getUsername()} | EMAIL\{user.getEmail()}");
+        System.out.println("Register request: USERNAME: " + user.getUsername() + " | EMAIL: " + user.getEmail());
 
-        if(userRepository.findByUsername(user.getUsername()).isPresent()) {
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             return ResponseEntity.badRequest().body("Username already exists");
         }
 
-        if(user.getEmail() != null && userRepository.findByEmail(user.getEmail()).isPresent()) {
+        if (user.getEmail() != null && userRepository.findByEmail(user.getEmail()).isPresent()) {
             return ResponseEntity.badRequest().body("Email already exists");
         }
 
-        if(user.getRole() == null || user.getRole().isEmpty()) {
+        if (user.getRole() == null || user.getRole().isEmpty()) {
             user.setRole("CUSTOMER");
         }
 
-        // **This is correct** — password encoded, username/email untouched
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
         User savedUser = userRepository.save(user);
+        // hide password before returning
+        savedUser.setPassword(null);
         return ResponseEntity.ok(savedUser);
-    }
-
-
-
-    // LOGIN user
-    @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody Map<String,String> credentials) {
-        String username = credentials.get("username");
-        String password = credentials.get("password");
-
-        return userRepository.findByUsername(username)
-                .map(user -> {
-                    if(!passwordEncoder.matches(password, user.getPassword())) {
-                        return ResponseEntity
-                                .status(401)
-                                .body("Invalid password");
-                    }
-                    return ResponseEntity.ok(user);
-                })
-                .orElseGet(() -> ResponseEntity
-                        .status(404)
-                        .body("User not found"));
     }
 }
